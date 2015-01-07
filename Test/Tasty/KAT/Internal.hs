@@ -17,12 +17,12 @@ import Data.ByteString (ByteString)
 import Foreign.Ptr
 import Data.Word
 
-#if !(MIN_VERSION_bytestring(0,10,0))
+#if !(MIN_VERSION_bytestring(0,10,4))
 import Foreign.ForeignPtr
 #endif
 
 unsafeCreateUptoN :: Int -> (Ptr Word8 -> IO Int) -> ByteString
-#if MIN_VERSION_bytestring(0,10,0)
+#if MIN_VERSION_bytestring(0,10,4)
 unsafeCreateUptoN = B.unsafeCreateUptoN
 #else
 unsafeCreateUptoN len f = unsafePerformIO $ do
