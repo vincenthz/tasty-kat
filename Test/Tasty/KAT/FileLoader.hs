@@ -1,5 +1,4 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE CPP #-}
 -- |
 -- Module      : Test.Tasty.KAT.FileLoader
 -- License     : MIT
@@ -38,9 +37,8 @@ import Data.List
 import Data.Word
 import Foreign.Storable
 import Foreign.Ptr
-#if !(MIN_VERSION_bytestring(0,10,0))
-import Foreign.ForeignPtr
-#endif
+
+import Test.Tasty.KAT.Internal
 
 type TestResource a = [(String, TestGroup a)]
 type TestGroup a = [TestUnit a]
@@ -180,15 +178,6 @@ valueUnbase64 s
                     \\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\
                     \\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\
                     \\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff"
-
-#if MIN_VERSION_bytestring(0,10,0)
-        unsafeCreateUptoN = B.unsafeCreateUptoN
-#else
-        unsafeCreateUptoN len f = unsafePerformIO $ do
-            fp <- B.mallocByteString len
-            l' <- withForeignPtr fp f
-            return $! B.PS fp 0 l'
-#endif
 
 -- expect an ascii string.
 valueUnbase16 :: String -> ByteString

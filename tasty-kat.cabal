@@ -23,6 +23,7 @@ source-repository head
 Library
   Exposed-modules:   Test.Tasty.KAT
                    , Test.Tasty.KAT.FileLoader
+  Other-modules:     Test.Tasty.KAT.Internal
   Build-depends:     base >= 4 && < 5
                    , bytestring
                    , tasty
