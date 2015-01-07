@@ -73,3 +73,4 @@ The grouped output with 'testKatGrouped' looks like:
     base64: OK
       2 tests succeed
 ```
+
