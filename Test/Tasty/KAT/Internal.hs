@@ -19,6 +19,7 @@ import Data.Word
 
 #if !(MIN_VERSION_bytestring(0,10,4))
 import Foreign.ForeignPtr
+import System.IO.Unsafe (unsafePerformIO)
 #endif
 
 unsafeCreateUptoN :: Int -> (Ptr Word8 -> IO Int) -> ByteString
