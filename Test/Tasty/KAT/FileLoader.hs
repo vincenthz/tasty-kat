@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE CPP #-}
 -- |
 -- Module      : Test.Tasty.KAT.FileLoader
 -- License     : MIT
@@ -37,6 +38,9 @@ import Data.List
 import Data.Word
 import Foreign.Storable
 import Foreign.Ptr
+#if !(MIN_VERSION_bytestring(0,10,0))
+import Foreign.ForeignPtr
+#endif
 
 type TestResource a = [(String, TestGroup a)]
 type TestGroup a = [TestUnit a]
@@ -126,7 +130,7 @@ mapTestUnitValuesBase16 = mapTestUnitValues valueUnbase16
 valueUnbase64 :: String -> ByteString
 valueUnbase64 s
     | (length s `mod` 4) /= 0 = error ("decodiong base64 not proper length: " ++ s)
-    | otherwise               = B.unsafeCreateUptoN maxSz $ \ptr -> do
+    | otherwise               = unsafeCreateUptoN maxSz $ \ptr -> do
                                     szRemove <- loop s ptr
                                     return (maxSz - szRemove)
   where maxSz = (length s `div` 4) * 3
@@ -177,6 +181,14 @@ valueUnbase64 s
                     \\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\
                     \\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff"
 
+#if MIN_VERSION_bytestring(0,10,0)
+        unsafeCreateUptoN = B.unsafeCreateUptoN
+#else
+        unsafeCreateUptoN len f = unsafePerformIO $ do
+            fp <- B.mallocByteString len
+            l' <- withForeignPtr fp f
+            return $! B.PS fp 0 l'
+#endif
 
 -- expect an ascii string.
 valueUnbase16 :: String -> ByteString
