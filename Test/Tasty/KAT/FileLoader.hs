@@ -33,6 +33,7 @@ import Data.Bits
 import qualified Data.ByteString.Internal as B
 import qualified Data.ByteString.Unsafe as B
 import Data.ByteString (ByteString)
+import Data.ByteString.Char8 () -- for Bytestring OverloadedString instance on old ghc
 import Data.List
 import Data.Word
 import Foreign.Storable
