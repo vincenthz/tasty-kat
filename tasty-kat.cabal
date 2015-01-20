@@ -15,6 +15,7 @@ Homepage:            https://github.com/vincenthz/tasty-kat
 Bug-Reports:         https://github.com/vincenthz/tasty-kat/issues
 Cabal-Version:       >=1.10
 extra-source-files:  README.md
+                   , Tests/KAT
 
 source-repository head
   type: git
