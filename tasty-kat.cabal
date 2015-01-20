@@ -1,5 +1,5 @@
 Name:                tasty-kat
-Version:             0.0.1
+Version:             0.0.2
 Synopsis:            Known Answer Tests (KAT) framework for tasty
 Description:
     Tests running from simple KATs file (different formats/helper supported)
